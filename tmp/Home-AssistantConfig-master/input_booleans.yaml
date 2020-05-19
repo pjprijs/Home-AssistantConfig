@@ -1,0 +1,5 @@
+  kodi_movie_scene: #used to track if movie scene was triggered
+  roku_left:
+  roku_up:
+  roku_right:
+  roku_down:

@@ -1,0 +1,8 @@
+MP Broadcast:
+  name: MP Broadcast
+  control: hidden
+  entities:
+    - media_player.gh_livingroom
+    - media_player.gh_kitchen
+    - media_player.gh_bedroom
+    - media_player.gh_bathroom

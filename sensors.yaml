@@ -1,0 +1,161 @@
+- platform: rfxtrx
+  automatic_add: true
+
+#- platform: postnl
+#  username: !secret postnl_username
+#  password: !secret postnl_password
+
+- platform: dsmr
+  port: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AO3U9CNH-if00-port0
+  dsmr_version: 5
+
+- platform: yr
+  name: Weather
+  forecast: 24
+  monitored_conditions:
+    - temperature
+    - symbol
+    - precipitation
+    - windSpeed
+    - pressure
+    - windDirection
+    - humidity
+    - cloudiness
+    - lowClouds
+    - mediumClouds
+    - highClouds
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_free
+    - type: processor_use
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'date_time_iso'
+
+- platform: template
+  sensors:
+    harmony_activity:
+      friendly_name: "Harmony Activity"
+      value_template: "{{ states.remote.harmony.attributes.current_activity }}"
+    heater_state:
+      friendly_name: "Heater"
+      value_template: >-
+        {% if states('sensor.weather_temperature')|float < 14 and
+              states('sensor.livingroom_temperature')|float > 22
+        %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.weather_temperature')|float < 14 and
+              states('sensor.livingroom_temperature')|float > 22
+        %}
+          mdi:radiator
+        {% else %}
+          mdi:radiator-off
+        {% endif %}
+    washer_status:
+      friendly_name: "Washing machine"
+      value_template: >-
+        {% if states('sensor.washer_power') | float > 2 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.washer_power') | float > 2 %}
+          mdi:washing-machine
+        {% else %}
+          mdi:washing-machine-off
+        {% endif %}
+    dryer_status:
+      friendly_name: "Dryer"
+      value_template: >-
+        {% if states('sensor.dryer_power') | float > 2 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.dryer_power') | float > 2 %}
+          mdi:fan
+        {% else %}
+          mdi:fan-off
+        {% endif %}
+    hottub_state:
+      friendly_name: "Hottub"
+      value_template: >-
+        {% if (states('sensor.hottub_heater_power') | float > 200) and
+              (states('sensor.hottub_pump_power') | float > 20)
+        %}
+          Heating
+        {% elif (states('sensor.hottub_heater_power') | float < 200) and
+              (states('sensor.hottub_pump_power') | float > 20)
+        %}
+          Cleaning
+        {% else %}
+          Off
+        {% endif %}
+      icon_template: >-
+        {% if (states('sensor.hottub_heater_power') | float > 200) and
+              (states('sensor.hottub_pump_power') | float > 20)
+        %}
+          mdi:hot-tub
+        {% elif (states('sensor.hottub_heater_power') | float < 200) and
+              (states('sensor.hottub_pump_power') | float > 20)
+        %}
+          mdi:waves
+        {% else %}
+          mdi:circle-off-outline
+        {% endif %}
+    hottub_heater:
+      friendly_name: "Hottub heater"
+      value_template: >-
+        {% if states('sensor.hottub_heater_power') | float > 200 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.hottub_heater_power') | float > 200 %}
+          mdi:radiator
+        {% else %}
+          mdi:radiator-off
+        {% endif %}
+    hottub_pump:
+      friendly_name: "Hottub pump"
+      value_template: >-
+        {% if states('sensor.hottub_pump_power') | float > 20 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.hottub_pump_power') | float > 20 %}
+          mdi:engine
+        {% else %}
+          mdi:engine-off
+        {% endif %}
+    energy_consumption:
+      friendly_name: "Energy Consumption"
+      unit_of_measurement: 'kWh'
+      value_template: "{{ ((states.sensor.energy_consumption_tarif_1.state|float) + (states.sensor.energy_consumption_tarif_2.state|float))|round }}"
+      icon_template: mdi:gauge
+    gas_consumption_round:
+      friendly_name: "Gas Consumption"
+      unit_of_measurement: 'm3'
+      value_template: "{{ (states.sensor.gas_consumption.state|float)|round }}"
+      icon_template: mdi:fire
+    power_consumption_watt:
+      friendly_name: "Power Consumption"
+      unit_of_measurement: 'Watt'
+      value_template: "{{ ((states.sensor.power_consumption.state|float)*1000)|round }}"
+      icon_template: mdi:power-plug

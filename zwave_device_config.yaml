@@ -1,0 +1,6 @@
+sensor.hottub_sensor_temperature:
+  ignored: false
+  polling_intensity: 1
+sensor.hottub_water_temperature:
+  ignored: false
+  polling_intensity: 1

@@ -1,0 +1,119 @@
+- id: garden_wall_on_evening
+  alias: "Garden wall auto on"
+  trigger:
+    platform: template
+    value_template: "{{ (state_attr('sun.sun', 'elevation') | float) < (states('input_number.garden_lights_sunset_angle') | float)}}"
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: "12:00:00"
+      - condition: template
+        value_template: >
+          {% if is_state('binary_sensor.workday_sensor', 'on') %}
+            {{ now().strftime('%H:%M:%S') < states('input_datetime.garden_lights_time_off_weekday') }}
+          {% else %}
+            {{ now().strftime('%H:%M:%S') < states('input_datetime.garden_lights_time_off_weekend') }}
+          {% endif %}
+  action:
+    service: switch.turn_on
+    entity_id: switch.garden_wall
+
+- id: garden_wall_off_weekday_evening
+  alias: "Garden wall auto off weekday evening"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_off_weekday', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: state
+    entity_id: 'binary_sensor.workday_sensor'
+    state: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.garden_wall
+
+- id: garden_wall_off_weekday_morning
+  alias: "Garden wall auto off weekday morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_on_weekday', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+    - platform: template
+      value_template: "{{ (state_attr('sun.sun', 'elevation') | float) > (states('input_number.garden_lights_sunrise_angle') | float)}}"
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: "12:00:00"
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+  action:
+    service: switch.turn_off
+    entity_id: switch.garden_wall
+
+- id: garden_wall_off_weekend_evening
+  alias: "Garden wall auto off weekend evening"
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_off_weekend', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: state
+    entity_id: 'binary_sensor.workday_sensor'
+    state: 'off'
+  action:
+    service: switch.turn_off
+    entity_id: switch.garden_wall
+
+- id: garden_wall_off_weekend_morning
+  alias: "Garden wall auto off weekend morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_on_weekend', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+    - platform: template
+      value_template: "{{ (state_attr('sun.sun', 'elevation') | float) > (states('input_number.garden_lights_sunrise_angle') | float)}}"
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        before: "12:00:00"
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+  action:
+    service: switch.turn_off
+    entity_id: switch.garden_wall
+
+- id: garden_wall_on_weekday_morning
+  alias: "Garden wall auto on weekday morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_on_weekday', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: template
+        value_template: "{{ (state_attr('sun.sun', 'elevation') | float) < (states('input_number.garden_lights_sunrise_angle') | float) }}"
+  action:
+    service: switch.turn_on
+    entity_id: switch.garden_wall
+
+- id: garden_wall_on_weekend_morning
+  alias: "Garden wall auto on weekend morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.garden_lights_time_on_weekend', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+      - condition: template
+        value_template: "{{ (state_attr('sun.sun', 'elevation') | float) < (states('input_number.garden_lights_sunrise_angle') | float) }}"
+  action:
+    service: switch.turn_on
+    entity_id: switch.garden_wall
+

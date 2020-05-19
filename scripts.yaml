@@ -1,0 +1,215 @@
+chime_announcement_livingroom:
+  sequence:
+    - service: media_player.volume_set
+      entity_id: media_player.gh_livingroom
+      data_template:
+        volume_level: >
+         {% if now().hour >= 19 and now().hour < 24 %} 0.2
+         {% elif now().hour >= 0 and now().hour < 9 %} 0.2
+         {% else %} 0.4
+         {% endif %}
+    - service: media_player.play_media
+      entity_id: media_player.gh_livingroom
+      data:
+        media_content_id: "http://10.0.0.200/music/effects/chime4.mp3"
+        media_content_type: "audio/mp3"
+    - delay:
+        seconds: 3
+    - service: tts.google_translate_say
+      entity_id: media_player.gh_livingroom
+      data_template:
+        message: '{{ message }}'  
+
+chime_announcement_broadcast:
+  sequence:
+    - service: media_player.volume_set
+      entity_id: media_player.gh_livingroom
+      data_template:
+        volume_level: 0.4
+    - service: media_player.volume_set
+      entity_id: media_player.gh_kitchen
+      data_template:
+        volume_level: 0.4
+    - service: media_player.volume_set
+      entity_id: media_player.gh_bedroom
+      data_template:
+        volume_level: >
+         {% if now().hour >= 19 and now().hour < 24 %} 0.05
+         {% elif now().hour >= 0 and now().hour < 9 %} 0.05
+         {% else %} 0.2
+         {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.gh_bathroom
+        volume_level: >
+         {% if now().hour >= 19 and now().hour < 24 %} 0.05
+         {% elif now().hour >= 0 and now().hour < 9 %} 0.05
+         {% else %} 0.3
+         {% endif %}
+    - service: media_player.play_media
+      entity_id: group.mp_broadcast
+      data:
+        media_content_id: "http://10.0.0.200/music/effects/chime4.mp3"
+        media_content_type: "audio/mp3"
+    - delay:
+        seconds: 3
+    - service: tts.google_translate_say
+      entity_id: group.mp_broadcast
+      data_template:
+        message: '{{ message }}'  
+
+alarm_workday:
+  sequence:
+    - service: media_player.volume_set
+      entity_id: media_player.gh_bedroom
+      data_template:
+        volume_level: 0.05
+    - service: tts.google_translate_say
+      entity_id: media_player.gh_bedroom
+      data_template:
+        message: 'Goedemorgen. het is tijd om op te staan.'  
+    - delay:
+        seconds: 3
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 5
+    - service: media_player.play_media
+      entity_id: media_player.gh_bedroom
+      data:
+        media_content_id: "http://10.0.0.200/music/effects/morning.mp3"
+        media_content_type: "audio/mp3"
+    - delay:
+        seconds: 30
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 15
+    - delay:
+        seconds: 30
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 30
+    - delay:
+        seconds: 37
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 45
+    - service: media_player.volume_set
+      entity_id: media_player.gh_bedroom
+      data_template:
+        volume_level: 0.1
+    - delay:
+        seconds: 30
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 60
+    - delay:
+        seconds: 29
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 75
+    - service: media_player.volume_set
+      entity_id: media_player.gh_bedroom
+      data_template:
+        volume_level: 0.15
+    - delay:
+        seconds: 30
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 90
+    - delay:
+        seconds: 30
+    - service: light.turn_on
+      data:
+        entity_id: light.nightlight_pj
+        brightness: 105
+
+alarm_weekend:
+  sequence:
+    - service: media_player.volume_set
+      entity_id: media_player.gh_bedroom
+      data_template:
+        volume_level: 0.05
+    - service: tts.google_translate_say
+      entity_id: media_player.gh_bedroom
+      data_template:
+        message: 'Goedemorgen. het is tijd om op te staan.'  
+    #- service: media_player.select_source
+    #  data_template: 
+    #    entity_id: media_player.spotify
+    #    source: 'Kitchen'
+    #- service: media_player.play_media
+    #  data_template:
+    #    entity_id: media_player.spotify
+    #    media_content_type: playlist
+    #    media_content_id: spotify:user:spotify:playlist:4HGPVhyt3wqEDqMcI5qzZI
+
+emulate_sunrise:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_table
+        brightness: 1
+        rgb_color: [255,0,0]
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_couch
+        brightness: 1
+        rgb_color: [255,0,0]
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_table
+        brightness: 75
+        rgb_color: [255,127,0]
+        transition: 20
+    - delay:
+        seconds: 20
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_table
+        brightness: 150
+        rgb_color: [255,204,0]
+        transition: 40
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_couch
+        brightness: 75
+        rgb_color: [255,127,0]
+        transition: 20
+    - delay:
+        seconds: 20
+
+hottub_clean:
+  sequence:
+    - condition: state
+      entity_id: sensor.hottub_pump
+      state: 'off'
+    - service: switch.turn_off
+      data:
+        entity_id: switch.hottub_heater
+    - service: switch.turn_on
+      data:
+        entity_id: switch.hottub_pump
+    - delay: '00:15'
+    - service: switch.turn_off
+      data:
+        entity_id: switch.hottub_pump
+    - service: switch.turn_on
+      data:
+        entity_id: switch.hottub_heater
+
+kodi_notification:
+  sequence:
+  - service: notify.mediacenter
+    data:
+      title: "Home Assistant"
+      message: '{{ message }}'
+      data:
+        displaytime: 20000
+        icon: "info"

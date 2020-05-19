@@ -1,0 +1,65 @@
+- id: hottub-heater-auto-off
+  alias: "Hottub heater auto off"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.hottub_water_temperature') > states('input_number.hottub_maximum_temperature') }}"
+  action:
+  - service: switch.turn_off
+    entity_id: switch.hottub_pump
+    
+- id: hottub-clean-auto-on
+  alias: "Hottub clean auto on"
+  trigger:
+    - platform: time_pattern
+      hours: '/3'
+      minutes: 00
+      seconds: 00
+  condition:
+    condition: time
+    after: '01:00:00'
+    before: '11:00:00'
+  action:
+  - service: script.hottub_clean
+
+- id: hottub-heater-auto-on
+  alias: "Hottub heater auto on"
+  trigger:
+    - platform: time_pattern
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{ (((states('input_number.hottub_target_temperature') | float) - (states('sensor.hottub_water_temperature')|float)))/1.2 >  ((as_timestamp(now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.hottub')) - as_timestamp(now())) / 3600) }}"
+      - condition: time
+        after: '09:00:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.hottub_auto_heat
+        state: 'on'
+      - condition: state
+        entity_id: sensor.hottub_heater
+        state: 'off'
+      - condition: template
+        value_template: "{{ states('sensor.hottub_water_temperature') < states('input_number.hottub_minimum_temperature') }}"
+  action:
+  - service: switch.turn_on
+    entity_id: switch.hottub_pump
+  - service: switch.turn_on
+    entity_id: switch.hottub_heater
+
+
+#- id: energy_reset_monthly_consumption
+#  alias: 'Energy Reset Monthly Consumption'
+#  trigger:
+#    platform: time
+#    hours: 0
+#    minutes: 0
+#    seconds: 0
+#  condition:
+#    condition: template
+#    value_template: "{{ now().date().day == 1 }}"
+#  action:
+#    - service: zwave.reset_node_meters
+#      data: {"node_id":13,"instance":1}

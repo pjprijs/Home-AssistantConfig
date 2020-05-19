@@ -1,0 +1,74 @@
+- id: roku_chromecast_pause
+  alias: Roku Chromecast pause
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Home
+  action:
+  - service: media_player.media_pause
+    entity_id: media_player.receiver
+- id: roku_chromecast_play
+  alias: Roku Chromecast play
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Play
+  action:
+  - service: media_player.media_play
+    entity_id: media_player.receiver
+- id: roku_chromecast_next
+  alias: Roku Chromecast next
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Fwd
+  action:
+  - service: media_player.media_next_track
+    entity_id: media_player.receiver
+- id: roku_chromecast_prev
+  alias: Roku Chromecast previous
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Rev
+  action:
+  - service: media_player.media_previous_track
+    entity_id: media_player.receiver
+- id: roku_chromecast_stop
+  alias: Roku Chromecast stop
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Back
+  action:
+  - service: media_player.media_stop
+    entity_id: media_player.receiver
+- id: roku_chromecast_set_volume
+  alias: Roku Chromecast volume
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+      roku_usn: hr8KreQd6m5Vsxm3USCRme
+      type: keypress
+      key: Search
+  action:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.receiver
+      volume_level: 0.4

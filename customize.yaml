@@ -1,0 +1,29 @@
+person.pieter_jan_prijs:
+  entity_picture: https://lh3.googleusercontent.com/a-/AAuE7mDtsF8nyXA6yFLrPSHgwS_h8Tl1kvXzo8uunaywpQ
+person.karen_de_ruiter:
+  entity_picture: https://i.pinimg.com/280x280_RS/1a/d3/e0/1ad3e092a9bc9e5a1a57fe4f659178d8.jpg
+
+light.christmas_tree:
+  assumed_state: true
+  icon: mdi:pine-tree
+light.christmas_hedgehog:
+  assumed_state: true
+  icon: mdi:baseball
+light.christmas_backyard:
+  assumed_state: true
+  icon: mdi:flower-tulip
+light.winter_village:
+  assumed_state: true
+  icon: mdi:city
+light.christmas_village:
+  assumed_state: true
+  icon: mdi:church
+light.christmas_star:
+  assumed_state: true
+  icon: mdi:star
+
+sensor.hottub_water_temperature:
+  device_class: temperature
+
+sensor.power_consumption_watt:
+  friendly_name: Power Usage

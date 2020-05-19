@@ -1,0 +1,184 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+#http:
+#  base_url: https://hassio.pjprijs.nl:8123
+#  ssl_certificate: /ssl/fullchain.pem
+#  ssl_key: /ssl/privkey.pem
+  
+# Text to speech
+tts:
+  - platform: google_translate
+    language: 'nl'
+#    base_url: http://10.0.0.40:8123
+
+notify:
+  - platform: html5
+    name: notify_html5
+    vapid_pub_key: !secret notify_public
+    vapid_prv_key: !secret notify_private
+    vapid_email: !secret notify_email
+  - platform: kodi
+    name: mediacenter
+    host: 10.0.0.100
+
+discovery:
+  ignore:
+    - philips_hue
+    - harmony
+
+homeassistant:
+  customize: !include customize.yaml
+
+rfxtrx:
+  device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433XL_DO3RVV9N-if00-port0
+
+cover:
+  - platform: rfxtrx
+    automatic_add: False
+    devices:
+      071a000001020301: # RFY
+        name: Serre
+
+recorder:
+  purge_keep_days: 10
+  purge_interval: 0
+  db_url: !secret recorder_db_url
+  include:
+    domains:
+      - input_boolean
+      - input_datetime
+      - input_number
+    entities:
+      - sensor.livingroom_temperature
+      - sensor.hottub_water_temperature
+      - sensor.washer_status
+      - sensor.dryer_status
+      - sensor.hottub_state
+      - sensor.hottub_pump
+      - sensor.hottub_heater
+      - sensor.livingroom_humidity
+      - person.pieter_jan_prijs
+      - person.karen_de_ruiter
+      - sensor.hottub_heater_energy
+      - sensor.energy_consumption
+      - sensor.gas_consumption_round
+
+emulated_roku:
+  servers:
+    - name: Home Assistant
+      listen_port: 8060
+      host_ip: 10.0.0.40
+
+tuya:
+  username: !secret tuya_username
+  password: !secret tuya_password
+  country_code: 31
+  platform: smart_life
+
+device_tracker:
+  - platform: bluetooth_tracker
+    consider_home: 120
+    new_device_defaults:
+      track_new_devices: false
+
+owntracks:
+  max_gps_accuracy: 200
+
+asuswrt:
+  host: 10.0.0.250
+  username: !secret router_username
+  password: !secret router_password
+  sensors:
+    - upload
+    - download
+    - upload_speed
+    - download_speed
+    
+binary_sensor:
+  - platform: template
+    sensors:
+      people_home:
+        friendly_name: "Anybody home"
+        value_template: >-
+          {{ is_state('group.karentracking', 'home')
+             or is_state('group.pjtracking', 'home') }}
+  - platform: workday
+    country: NL
+    workdays: [mon, tue, wed, thu, fri]
+    excludes: [sat, sun, holiday]
+
+camera:
+  - platform: generic
+    name: Speelkamer
+    still_image_url: http://10.0.0.50/image.jpg
+    username: !secret camera_username
+    password: !secret camera_password
+  - platform: generic
+    name: Slaapkamer
+    still_image_url: http://10.0.0.55/image/jpeg.cgi        
+    username: !secret camera_username
+    password: !secret camera_password
+
+input_select:
+  camera_control_sleep:
+    name: Camera Sleep
+    options:
+      - Home
+      - Window
+    initial: Home
+    icon: mdi:camera-switch
+  camera_control_play:
+    name: Camera Play
+    options:
+      - Home
+    initial: Home
+    icon: mdi:camera-switch
+
+media_player:
+  - platform: kodi
+    host: 10.0.0.100
+    name: Kodi
+    enable_websocket: true
+  - platform: harman_kardon_avr
+    host: 10.0.0.110
+  - platform: spotify
+    client_id: !secret spotify_id
+    client_secret: !secret spotify_secret
+    aliases:
+        7e4ca307628f40399bd6b7351af21693: 'Living Room'
+        9ef9b510d8934a1cad077cd53f5d9922: 'Kitchen'
+        6450335c726648a7ba710051a7f31f4d: 'Bedroom'
+        7389151848bc4cb19c162e7165a05460: 'Bathroom'
+        94d0fa8e056d4738bea4e43b2658f126: 'Kids'
+        764b60d5d5944deeb2c2c930f84fc09a: 'Receiver'
+    
+zwave:
+  usb_path: /dev/serial/by-id/usb-0658_0200-if00
+  debug: false
+  network_key: !secret zwave_network_key
+  polling_interval: 5000
+
+remote:
+  - platform: harmony
+    name: Harmony
+    host: 10.0.0.120
+    activity: Source music
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+
+group: !include_dir_merge_named groups/
+automation: !include_dir_merge_list automations/
+script: !include scripts.yaml
+light: !include lights.yaml
+switch: !include switches.yaml
+scene: !include scenes.yaml
+input_boolean: !include input_booleans.yaml
+input_number: !include input_numbers.yaml
+input_datetime: !include input_datetimes.yaml
+sensor: !include sensors.yaml
+zone: !include zones.yaml

@@ -1,0 +1,38 @@
+  minimum_room_temperature:
+    name: Minimum Room Temperature
+    icon: mdi:home-thermometer-outline
+    min: 15
+    max: 25
+    step: 0.5
+
+  hottub_target_temperature:
+    name: Target Temperature
+    icon: mdi:thermometer-lines
+    min: 10
+    max: 45
+    step: 0.5
+  hottub_minimum_temperature:
+    name: Minimum Temperature
+    icon: mdi:thermometer-minus
+    min: 34
+    max: 42
+    step: 0.5
+  hottub_maximum_temperature:
+    name: Maximum Temperature
+    icon: mdi:thermometer-plus
+    min: 35
+    max: 42
+    step: 0.5
+    
+  garden_lights_sunset_angle:
+    name: Sunset Angle
+    icon: mdi:weather-sunset-down
+    min: -10
+    max: 10
+    step: 1
+  garden_lights_sunrise_angle:
+    name: Sunrise Angle
+    icon: mdi:weather-sunset-up
+    min: -10
+    max: 10
+    step: 1

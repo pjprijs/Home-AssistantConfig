@@ -1,0 +1,74 @@
+- platform: yr
+  name: Weather
+  forecast: 24
+  monitored_conditions:
+    - temperature
+    - symbol
+    - precipitation
+    - windSpeed
+    - pressure
+    - windDirection
+    - humidity
+    - cloudiness
+    - lowClouds
+    - mediumClouds
+    - highClouds
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_free
+    - type: processor_use
+
+- platform: template
+  sensors:
+    harmony_activity:
+      friendly_name: "Harmony Activity"
+      value_template: "{{ states.remote.harmony.attributes.current_activity }}"
+    heater_state:
+      friendly_name: "Heater"
+      value_template: >-
+        {% if states('sensor.weather_temperature')|float < 14 and
+              states('sensor.livingroom_temperature')|float > 22
+        %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.weather_temperature')|float < 14 and
+              states('sensor.livingroom_temperature')|float > 22
+        %}
+          mdi:radiator
+        {% else %}
+          mdi:radiator-off
+        {% endif %}
+    washer_status:
+      friendly_name: "Washing machine"
+      value_template: >-
+        {% if states('sensor.washer_power') | float > 2 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.washer_power') | float > 2 %}
+          mdi:water
+        {% else %}
+          mdi:water-off
+        {% endif %}
+    dryer_status:
+      friendly_name: "Dryer"
+      value_template: >-
+        {% if states('sensor.dryer_power') | float > 2 %}
+          on
+        {% else %}
+          off
+        {% endif %}
+      icon_template: >-
+        {% if states('sensor.dryer_power') | float > 2 %}
+          mdi:fan
+        {% else %}
+          mdi:fan-off
+        {% endif %}

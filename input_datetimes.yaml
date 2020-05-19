@@ -1,0 +1,21 @@
+  hottub:
+    name: Hottub ready
+    has_date: false
+    has_time: true
+
+  garden_lights_time_off_weekday:
+    name: Turn off (weekday)
+    has_date: false
+    has_time: true
+  garden_lights_time_off_weekend:
+    name: Turn off (weekend)
+    has_date: false
+    has_time: true
+  garden_lights_time_on_weekday:
+    name: Turn on (weekday)
+    has_date: false
+    has_time: true
+  garden_lights_time_on_weekend:
+    name: Turn on (weekend)
+    has_date: false
+    has_time: true

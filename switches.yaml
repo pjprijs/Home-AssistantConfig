@@ -1,0 +1,228 @@
+  - platform: rfxtrx
+    automatic_add: false
+    devices:
+      "0710010050010150":
+        name: remote_P_1_1
+      "0710010550020150":
+        name: remote_P_1_2
+      "0710010750030160":
+        name: remote_P_1_3
+      "0710010950040150":
+        name: remote_P_1_4
+      "0710010050050160":
+        name: remote_P_2_1
+      "0710010250060160":
+        name: remote_P_2_2
+      "0710010b50070160":
+        name: remote_P_2_3
+      "0710010c50080160":
+        name: remote_P_2_4
+      "0710011150090160":
+        name: remote_P_3_1
+      "07100112500a0160":
+        name: remote_P_3_2
+      "07100115500b0160":
+        name: remote_P_3_3
+      "07100117500c0160":
+        name: remote_P_3_4
+      "07100118500d0160":
+        name: remote_P_4_1
+      "0710011b500e0160":
+        name: remote_P_4_2
+      "0710011c500f0160":
+        name: remote_P_4_3
+      "0710010a50100650":
+        name: remote_P_4_4
+      "0b11000301ffb11a01010f60":
+        name: remote2_1
+      "0b11000401ffb11a02010f60":
+        name: remote2_2
+      "0b11000501ffb11a03010f60":
+        name: remote2_3
+
+  - platform: template
+    switches:
+      source_music:
+        friendly_name: Source Music
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Source music') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Source music') %}
+            mdi:music-note
+          {% else %}
+            mdi:music-note-off
+          {% endif %}
+        turn_on:
+          - service: remote.turn_on
+            entity_id: remote.harmony
+            data: 
+              activity: "Source music"
+        turn_off:
+          - service: remote.turn_off
+            entity_id: remote.harmony
+            data:
+              activity: "Source music"
+  - platform: template
+    switches:
+      source_movie:
+        friendly_name: Source Movie
+        #icon: mdi-movie
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Source movie') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Source movie') %}
+            mdi:filmstrip
+          {% else %}
+            mdi:filmstrip-off
+          {% endif %}
+        turn_on:
+          service: remote.turn_on
+          entity_id: remote.harmony
+          data: 
+            activity: "Source movie"
+        turn_off:
+          service: remote.turn_off
+          entity_id: remote.harmony
+          data:
+            activity: "Source movie"
+  - platform: template
+    switches:
+      source_chromecast:
+        friendly_name: Source Chromecast
+        #icon: mdi-google-chrome
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Source Chromecast') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Source Chromecast') %}
+            mdi:google-chrome
+          {% else %}
+            mdi:google-chrome
+          {% endif %}
+        turn_on:
+          service: remote.turn_on
+          entity_id: remote.harmony
+          data: 
+            activity: "Source Chromecast"
+        turn_off:
+          service: remote.turn_off
+          entity_id: remote.harmony
+          data:
+            activity: "Source Chromecast" 
+  - platform: template
+    switches:
+      source_games:
+        friendly_name: Source Games
+        #icon: mdi-gamepad-variant
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Source games') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Source games') %}
+            mdi:xbox-controller
+          {% else %}
+            mdi:xbox-controller-off
+          {% endif %}
+        turn_on:
+          service: remote.turn_on
+          entity_id: remote.harmony
+          data: 
+            activity: "Source games"
+        turn_off:
+          service: remote.turn_off
+          entity_id: remote.harmony
+          data:
+            activity: "Source games"
+  - platform: template
+    switches:
+      projector_screen:
+        friendly_name: Projector Screen
+        #icon: mdi-projector-screen
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Screen') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Screen') %}
+            mdi:projector-screen
+          {% else %}
+            mdi:projector-screen
+          {% endif %}
+        turn_on:
+          service: remote.turn_on
+          entity_id: remote.harmony
+          data: 
+            activity: "Screen"
+        turn_off:
+          service: remote.turn_off
+          entity_id: remote.harmony
+          data:
+            activity: "Screen"
+  - platform: template
+    switches:
+      watch_movie:
+        friendly_name: Watch movie
+        #icon: mdi-theater
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Watch movie') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Watch movie') %}
+            mdi:theater
+          {% else %}
+            mdi:theater
+          {% endif %}
+        turn_on:
+          - service: remote.turn_on
+            entity_id: remote.harmony
+            data: 
+              activity: "Watch movie"
+        turn_off:
+          - service: remote.turn_off
+            entity_id: remote.harmony
+            data:
+              activity: "Watch movie"
+  - platform: template
+    switches:
+      projector:
+        friendly_name: Projector
+        #icon: mdi-theater
+        value_template: "{{ is_state_attr('remote.harmony', 'current_activity', 'Projector') }}"
+        icon_template: >-
+          {% if is_state_attr('remote.harmony', 'current_activity', 'Projector') %}
+            mdi:projector
+          {% else %}
+            mdi:projector
+          {% endif %}
+        turn_on:
+          service: remote.turn_on
+          entity_id: remote.harmony
+          data: 
+            activity: "Projector"
+        turn_off:
+          service: remote.turn_off
+          entity_id: remote.harmony
+          data:
+            activity: "Projector"
+  - platform: template
+    switches:
+      test:
+        value_template: "{{ is_state('remote.harmony', 'Source music') }}"
+        turn_on:
+          service: remote.send_command
+          entity_id: remote.harmony
+          data: 
+            device: "51912683"
+            command: "PowerOn"
+        turn_off:
+          service: remote.send_command
+          entity_id: remote.harmony
+          data: 
+            device: "51912683"
+            command: "PowerOff"
+  - platform: template
+    switches:
+      hottub_auto_heat:
+        friendly_name: "Auto Heat Hottub"
+        value_template: "{{ is_state('input_boolean.hottub_auto_heat', 'on') }}"
+        icon_template: >-
+          {% if is_state('input_boolean.hottub_auto_heat', 'on') %}
+            mdi:timer
+          {% else %}
+            mdi:timer-off
+          {% endif %}
+        turn_on:
+          service: input_boolean.turn_on
+          entity_id: input_boolean.hottub_auto_heat
+        turn_off:
+          service: input_boolean.turn_off
+          entity_id: input_boolean.hottub_auto_heat

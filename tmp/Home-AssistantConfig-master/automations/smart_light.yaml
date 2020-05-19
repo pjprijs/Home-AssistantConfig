@@ -1,0 +1,37 @@
+- id: Lights_on_luminance
+  alias: Lights on luminance
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.livingroom_luminance
+      below: 10
+    - platform: time
+      at: '7:30:00'
+    - platform: state
+      entity_id: binary_sensor.people_home
+      from: 'off'
+      to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '7:00:00'
+      before: '22:00:00'  
+    - condition: numeric_state
+      entity_id: 'sensor.livingroom_luminance'
+      below: '10'
+    - condition: state
+      entity_id: 'binary_sensor.people_home'
+      state: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.living_room
+
+- id: Lights_off_luminance
+  alias: Lights off luminance
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.livingroom_luminance
+    above: 13
+  action:
+    service: light.turn_off
+    entity_id: light.living_room

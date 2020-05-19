@@ -1,0 +1,7 @@
+  kodi_movie_scene: #used to track if movie scene was triggered
+  roku_left:
+  roku_up:
+  roku_right:
+  roku_down:
+  hottub_pump_status:
+  hottub_auto_heat:

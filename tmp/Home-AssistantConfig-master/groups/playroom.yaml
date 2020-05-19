@@ -1,0 +1,12 @@
+Playroom Lights:
+  name: Playroom Lights
+  control: hidden
+  entities:
+    - light.bedroom_kids
+
+Camera Playroom:
+  name: Camera Playroom
+  control: hidden
+  entities:
+    - input_select.camera_control_play
+    - camera.speelkamer

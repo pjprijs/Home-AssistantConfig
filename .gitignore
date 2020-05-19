@@ -1,0 +1,16 @@
+*
+.*
+!**/
+!*.yaml
+!.gitignore
+!*.md
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+zones.yaml
+shell_commands.yaml
+
+# Ignore folders.
+.storage
+.cloud
+.google.token

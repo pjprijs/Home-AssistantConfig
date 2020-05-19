@@ -1,0 +1,42 @@
+- id: '1538141972203'
+  alias: 'Kodi playing'
+  trigger:
+  - platform: state
+    entity_id: media_player.kodi
+    to: 'playing'
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states.media_player.kodi.attributes.media_content_type == "tvshow" }}'
+    - condition: template
+      value_template: '{{ states.media_player.kodi.attributes.media_content_type == "movie" }}'    
+  action:
+  - service: light.turn_off
+    entity_id: light.living_room
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.kodi_movie_scene
+- id: '1538141643397'
+  alias: 'Kodi paused/stopped'
+  trigger:
+  - platform: state
+    entity_id: media_player.kodi
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  - condition: template
+    value_template: "{{ states('media_player.kodi') != 'playing' }}"
+  - condition: state #check if movie scene is on
+    entity_id: input_boolean.kodi_movie_scene
+    state: 'on'  
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.kodi_movie_scene
+  - service: light.turn_on
+    entity_id: light.wicker
+  - service: light.turn_on
+    entity_id: light.little_sphere
