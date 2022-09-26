@@ -58,6 +58,13 @@ chime_announcement_broadcast:
       data_template:
         message: '{{ message }}'  
 
+test_announcement:
+  sequence:
+    - service: tts.google_translate_say
+      entity_id: media_player.gh_livingroom
+      data_template:
+        message: '{{ message }}'  
+
 alarm_workday:
   sequence:
     - service: media_player.volume_set
@@ -149,41 +156,6 @@ alarm_weekend:
     #    entity_id: media_player.spotify
     #    media_content_type: playlist
     #    media_content_id: spotify:user:spotify:playlist:4HGPVhyt3wqEDqMcI5qzZI
-
-emulate_sunrise:
-  sequence:
-    - service: light.turn_on
-      data:
-        entity_id: light.spots_table
-        brightness: 1
-        rgb_color: [255,0,0]
-    - service: light.turn_on
-      data:
-        entity_id: light.spots_couch
-        brightness: 1
-        rgb_color: [255,0,0]
-    - service: light.turn_on
-      data:
-        entity_id: light.spots_table
-        brightness: 75
-        rgb_color: [255,127,0]
-        transition: 20
-    - delay:
-        seconds: 20
-    - service: light.turn_on
-      data:
-        entity_id: light.spots_table
-        brightness: 150
-        rgb_color: [255,204,0]
-        transition: 40
-    - service: light.turn_on
-      data:
-        entity_id: light.spots_couch
-        brightness: 75
-        rgb_color: [255,127,0]
-        transition: 20
-    - delay:
-        seconds: 20
 
 hottub_clean:
   sequence:

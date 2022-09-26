@@ -24,6 +24,10 @@ notify:
     name: mediacenter
     host: 10.0.0.100
 
+home_connect:
+  client_id: !secret hc_client
+  client_secret: !secret hc_secret
+  
 discovery:
   ignore:
     - philips_hue
@@ -31,16 +35,6 @@ discovery:
 
 homeassistant:
   customize: !include customize.yaml
-
-rfxtrx:
-  device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433XL_DO3RVV9N-if00-port0
-
-cover:
-  - platform: rfxtrx
-    automatic_add: False
-    devices:
-      071a000001020301: # RFY
-        name: Serre
 
 recorder:
   purge_keep_days: 10
@@ -65,6 +59,8 @@ recorder:
       - sensor.hottub_heater_energy
       - sensor.energy_consumption
       - sensor.gas_consumption_round
+      - sensor.serre_temperature
+      - sensor.serre_ultraviolet
 
 emulated_roku:
   servers:
@@ -72,31 +68,6 @@ emulated_roku:
       listen_port: 8060
       host_ip: 10.0.0.40
 
-tuya:
-  username: !secret tuya_username
-  password: !secret tuya_password
-  country_code: 31
-  platform: smart_life
-
-device_tracker:
-  - platform: bluetooth_tracker
-    consider_home: 120
-    new_device_defaults:
-      track_new_devices: false
-
-owntracks:
-  max_gps_accuracy: 200
-
-asuswrt:
-  host: 10.0.0.250
-  username: !secret router_username
-  password: !secret router_password
-  sensors:
-    - upload
-    - download
-    - upload_speed
-    - download_speed
-    
 binary_sensor:
   - platform: template
     sensors:
@@ -155,12 +126,6 @@ media_player:
         94d0fa8e056d4738bea4e43b2658f126: 'Kids'
         764b60d5d5944deeb2c2c930f84fc09a: 'Receiver'
     
-zwave:
-  usb_path: /dev/serial/by-id/usb-0658_0200-if00
-  debug: false
-  network_key: !secret zwave_network_key
-  polling_interval: 5000
-
 remote:
   - platform: harmony
     name: Harmony
@@ -173,8 +138,8 @@ nest:
 
 group: !include_dir_merge_named groups/
 automation: !include_dir_merge_list automations/
-script: !include scripts.yaml
-light: !include lights.yaml
+script: !include_dir_merge_named scripts/
+light: !include_dir_merge_list lights/
 switch: !include switches.yaml
 scene: !include scenes.yaml
 input_boolean: !include input_booleans.yaml

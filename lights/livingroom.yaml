@@ -1,0 +1,79 @@
+  - platform: template
+    lights:
+      sw_kitchen:
+        friendly_name: "SW Kitchen"
+        level_template: >-
+          {% if is_state('switch.fb_kitchen_ceiling','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.fb_kitchen_ceiling','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.fb_kitchen_ceiling
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.fb_kitchen_ceiling
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.fb_kitchen_ceiling
+
+  - platform: template
+    lights:
+      kitchen_spots:
+        friendly_name: "Kitchen Spots"
+        level_template: >-
+          {% if is_state('switch.fb_kitchen_spots','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.fb_kitchen_spots','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.fb_kitchen_spots
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.fb_kitchen_spots
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.fb_kitchen_spots
+
+  - platform: template
+    lights:
+      table_spots:
+        friendly_name: "Table Spots"
+        level_template: >-
+          {% if is_state('switch.fb_kitchen_top_right','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.fb_kitchen_top_right','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.fb_kitchen_top_right
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.fb_kitchen_top_right
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.fb_kitchen_top_right
+
+  - platform: template
+    lights:
+      bulb:
+        friendly_name: "Bulb"
+        level_template: >-
+          {% if is_state('switch.tasmota31','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.tasmota31','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.tasmota31
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.tasmota31
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.tasmota31

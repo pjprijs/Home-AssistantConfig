@@ -1,0 +1,135 @@
+  - platform: group
+    name: Christmas
+    entities:
+      - light.christmas_tree
+      - light.christmas_hedgehog
+      - light.christmas_backyard
+      - light.winter_village
+      - light.christmas_village
+      - light.christmas_star
+
+  - platform: group
+    name: Living Room
+    entities:
+      - light.little_sphere
+      - light.wicker
+      - light.ml_spots_couch
+      - light.table_spots
+      - light.table
+
+  - platform: group
+    name: Seating Area
+    entities:
+      - light.little_sphere
+      - light.wicker
+      - light.spots_couch
+
+  - platform: group
+    name: Dining Area
+    entities:
+      - light.spots_table
+      - light.table
+
+  - platform: group
+    name: Kitchen
+    entities:
+      - light.sw_kitchen
+      - light.ml_kitchen
+
+  - platform: group
+    name: Kids Bedroom
+    entities:
+      - light.sw_kids_bedroom
+      - light.ml_kids_bedroom
+
+  - platform: group
+    name: Bathroom
+    entities:
+      - light.shower
+      - light.bath
+      - light.bathroom_other
+      - light.mirror
+
+## SWITCH AS LIGHT
+  - platform: template
+    lights:
+      lava_lamp:
+        friendly_name: "Lava Lamp"
+        level_template: >-
+          {% if is_state('switch.sw_lava_lamp','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.sw_lava_lamp','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.sw_lava_lamp
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.sw_lava_lamp
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.sw_lava_lamp
+
+  - platform: template
+    lights:
+      globe:
+        friendly_name: "Globe"
+        level_template: >-
+          {% if is_state('switch.sw_globe','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.sw_globe','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.sw_globe
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.sw_globe
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.sw_globe
+
+  - platform: template
+    lights:
+      bookcase:
+        friendly_name: "Bookcase"
+        level_template: >-
+          {% if is_state('switch.sw_bookcase','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.sw_bookcase','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.sw_bookcase
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.sw_bookcase
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.sw_bookcase
+
+  - platform: template
+    lights:
+      sw_kids_bedroom:
+        friendly_name: "SW kids bedroom"
+        level_template: >-
+          {% if is_state('switch.fb_kids_bedroom','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.fb_kids_bedroom','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.fb_kids_bedroom
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.fb_kids_bedroom
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.fb_kids_bedroom
+
+
+

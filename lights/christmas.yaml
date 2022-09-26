@@ -1,0 +1,119 @@
+  - platform: template
+    lights:
+      christmas_tree:
+        friendly_name: "Christmas Tree"
+        level_template: >-
+          {% if is_state('switch.remote_P_1_1','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_1_1','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_1_1
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_1_1
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_1_1
+
+  - platform: template
+    lights:
+      winter_village:
+        friendly_name: "Winter Village"
+        level_template: >-
+          {% if is_state('switch.remote_P_2_1','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_2_1','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_2_1
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_2_1
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_2_1
+
+  - platform: template
+    lights:
+      christmas_hedgehog:
+        friendly_name: "Christmas Hedgehog"
+        level_template: >-
+          {% if is_state('switch.remote_P_1_2','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_1_2','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_1_2
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_1_2
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_1_2
+
+  - platform: template
+    lights:
+      christmas_backyard:
+        friendly_name: "Christmas Backyard"
+        level_template: >-
+          {% if is_state('switch.remote_P_2_2','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_2_2','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_2_2
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_2_2
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_2_2
+
+  - platform: template
+    lights:
+      christmas_star:
+        friendly_name: "Christmas Star"
+        level_template: >-
+          {% if is_state('switch.remote_P_1_3','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_1_3','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_1_3
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_1_3
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_1_3
+
+  - platform: template
+    lights:
+      christmas_village:
+        friendly_name: "Christmas Village"
+        level_template: >-
+          {% if is_state('switch.remote_P_1_4','on') %}255{% else %}0{% endif %}
+        value_template: >-
+          {{ is_state('switch.remote_P_1_4','on') }}
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.remote_P_1_4
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.remote_P_1_4
+        set_level:
+          service_template: >-
+            {% if brightness > 0 %}switch.turn_on{% else %}switch.turn_off{% endif %}
+          data:
+            entity_id: switch.remote_P_1_4

@@ -5,3 +5,8 @@
   roku_down:
   hottub_pump_status:
   hottub_auto_heat:
+  gardenwall_effect:
+  alarm_weekday:
+  alarm_weekend:
+  hottub_reach_temperature:
+  hottub_check_turn_on:

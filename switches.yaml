@@ -1,44 +1,37 @@
-  - platform: rfxtrx
-    automatic_add: false
-    devices:
-      "0710010050010150":
-        name: remote_P_1_1
-      "0710010550020150":
-        name: remote_P_1_2
-      "0710010750030160":
-        name: remote_P_1_3
-      "0710010950040150":
-        name: remote_P_1_4
-      "0710010050050160":
-        name: remote_P_2_1
-      "0710010250060160":
-        name: remote_P_2_2
-      "0710010b50070160":
-        name: remote_P_2_3
-      "0710010c50080160":
-        name: remote_P_2_4
-      "0710011150090160":
-        name: remote_P_3_1
-      "07100112500a0160":
-        name: remote_P_3_2
-      "07100115500b0160":
-        name: remote_P_3_3
-      "07100117500c0160":
-        name: remote_P_3_4
-      "07100118500d0160":
-        name: remote_P_4_1
-      "0710011b500e0160":
-        name: remote_P_4_2
-      "0710011c500f0160":
-        name: remote_P_4_3
-      "0710010a50100650":
-        name: remote_P_4_4
-      "0b11000301ffb11a01010f60":
-        name: remote2_1
-      "0b11000401ffb11a02010f60":
-        name: remote2_2
-      "0b11000501ffb11a03010f60":
-        name: remote2_3
+  - platform: wake_on_lan
+    name: MacBook
+    mac: "80:E6:50:28:19:00"
+    host: 10.0.0.10
+
+  - platform: wake_on_lan
+    name: NUC streamer
+    mac: "98:43:FA:98:AA:94"
+    host: 10.0.0.163
+
+  - platform: wake_on_lan
+    name: Renderstation
+    mac: "3C:7C:3F:D8:87:0F"
+    host: 10.0.0.165
+    turn_off:
+      service: hassio.addon_stdin
+      data:
+        addon: core_rpc_shutdown
+        input: renderstation
+
+  - platform: wake_on_lan
+    name: NUC server
+    mac: "1C:69:7A:69:24:BF"
+    host: 10.0.0.164
+
+  - platform: wake_on_lan
+    name: NUC server full
+    mac: "1C:69:7A:69:24:BF"
+    host: 10.0.0.164
+    turn_off:
+      service: hassio.addon_stdin
+      data:
+        addon: core_rpc_shutdown
+        input: nuc-server
 
   - platform: template
     switches:

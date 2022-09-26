@@ -1,7 +1,6 @@
   - name: Play Movie
     entities:
-      light.table: off
-      light.spots_table: off
+      light.table_spots: off
       light.spots_couch: off
       light.wicker:
         state: on
@@ -12,10 +11,7 @@
   - name: Pause Movie
     entities:
       light.spots_couch: off
-      light.spots_table: off
-      light.table: 
-        state: on
-        effect: white
+      light.table_spots: off
       light.wicker: 
         state: on
         effect: white
@@ -25,11 +21,7 @@
   - name: Projector Screen
     entities:
       light.spots_couch: off
-      light.spots_table: off
-      light.table: 
-        state: on
-        brightness_pct: 20
-        effect: white
+      light.table_spots: off
       light.wicker: 
         state: on
         brightness_pct: 30
@@ -41,8 +33,8 @@
   - name: Cozy Evening
     entities:
       light.spots_couch: off
-      light.spots_table: off
-      light.table: 
+      light.table_spots: off
+      light.sphere: 
         state: on
         brightness_pct: 20
         effect: white
@@ -60,11 +52,11 @@
         state: on
         brightness: 160
         rgb_color: ['255', '228', '219']
-      light.spots_table:
+      light.ml_spots_table:
         state: on
         brightness: 160
         rgb_color: ['255', '228', '219']
-      light.table: 
+      light.sphere: 
         state: on
         brightness_pct: 20
         effect: white
@@ -76,39 +68,17 @@
         state: on
         brightness_pct: 25
         effect: white
-  - name: Multi color
-    entities:
-      light.spots_couch:
-        state: on
-        brightness: 160
-        rgb_color: ['219', '237', '255']
-      light.spots_table:
-        state: on
-        brightness: 160
-        rgb_color: ['255', '219', '219']
-      light.table: 
-        state: on
-        brightness_pct: 20
-        effect: white
-      light.wicker: 
-        state: on
-        brightness_pct: 25
-        rgb_color: ['0', '255', '0']
-      light.little_sphere:
-        state: on
-        brightness_pct: 25
-        rgb_color: ['175', '96', '255']
   - name: Flood Light
     entities:
       light.spots_couch:
         state: on
         brightness_pct: 100
         effect: white
-      light.spots_table:
+      light.ml_spots_table:
         state: on
         brightness_pct: 100
         effect: white
-      light.table: 
+      light.sphere: 
         state: on
         brightness_pct: 100
         effect: white
@@ -120,3 +90,34 @@
         state: on
         brightness_pct: 100
         effect: white
+  - name: Aqua
+    entities:
+      light.garden_spots_top:
+        state: on
+        brightness_pct: 70
+        rgb_color: [0,255,180]
+      light.garden_spots_bottom:
+        state: on
+        brightness_pct: 60
+        rgb_color: [0,255,90]
+  - name: Fire
+    entities:
+      light.garden_spots_top:
+        state: on
+        brightness_pct: 80
+        rgb_color: [255,200,0]
+      light.garden_spots_bottom:
+        state: on
+        brightness_pct: 60
+        rgb_color: [255,100,0]
+  - name: Wall Colorloop
+    entities:
+      light.garden_spots_top:
+        state: on
+        brightness_pct: 60
+        effect: colorloop
+      light.garden_spots_bottom:
+        transition: 2
+        state: on
+        brightness_pct: 60
+        effect: colorloop

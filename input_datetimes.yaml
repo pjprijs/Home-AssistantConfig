@@ -19,3 +19,12 @@
     name: Turn on (weekend)
     has_date: false
     has_time: true
+
+  wakeuplight_weekday:
+    name: Alarm (weekday)
+    has_date: false
+    has_time: true
+  wakeuplight_weekend:
+    name: Alarm (weekend)
+    has_date: false
+    has_time: true

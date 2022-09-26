@@ -2,11 +2,53 @@
   alias: "Hottub heater auto off"
   trigger:
     - platform: template
-      value_template: "{{ states('sensor.hottub_water_temperature') > states('input_number.hottub_maximum_temperature') }}"
+      value_template: "{{ states('sensor.hottub_water_temperature') < '45' and states('sensor.hottub_water_temperature') > states('input_number.hottub_maximum_temperature') }}"
   action:
   - service: switch.turn_off
     entity_id: switch.hottub_pump
-    
+
+- id: hottub_reset_vars
+  alias: "hottub_reset vars"
+  trigger:
+    - platform: time
+      at: "04:00:00"
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.hottub_reach_temperature
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.hottub_check_turn_on
+
+- id: hottub_reach_temperature-on
+  alias: "hottub_reach_temperature on"
+  trigger:
+    - platform: time_pattern
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '09:00:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.hottub_auto_heat
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.hottub_reach_temperature
+        state: 'off'
+      - condition: template
+        value_template: "{{ states('sensor.hottub_water_temperature') > states('input_number.hottub_target_temperature') }}"
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.hottub_reach_temperature
+  - service: script.chime_announcement_broadcast
+    data:
+      message: 'De hottub is nu op de ingestelde temperatuur.'
+
+
 - id: hottub-clean-auto-on
   alias: "Hottub clean auto on"
   trigger:
@@ -17,7 +59,7 @@
   condition:
     condition: time
     after: '01:00:00'
-    before: '11:00:00'
+    before: '10:00:00'
   action:
   - service: script.hottub_clean
 
@@ -31,7 +73,7 @@
     condition: and
     conditions:
       - condition: template
-        value_template: "{{ (((states('input_number.hottub_target_temperature') | float) - (states('sensor.hottub_water_temperature')|float)))/1.2 >  ((as_timestamp(now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.hottub')) - as_timestamp(now())) / 3600) }}"
+        value_template: "{{ (((states('input_number.hottub_target_temperature') | float) - (states('sensor.hottub_water_temperature')|float)))/1.0 >  ((as_timestamp(now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.hottub')) - as_timestamp(now())) / 3600) }}"
       - condition: time
         after: '09:00:00'
         before: '23:00:00'
@@ -48,6 +90,100 @@
     entity_id: switch.hottub_pump
   - service: switch.turn_on
     entity_id: switch.hottub_heater
+
+- id: hottub-heater-auto-on-manual-check
+  alias: "Hottub heater auto on manual check"
+  trigger:
+    - platform: time_pattern
+      minutes: '/5'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{ (((states('input_number.hottub_target_temperature') | float) - (states('sensor.hottub_water_temperature')|float)))/1.0 >  ((as_timestamp(now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.hottub')) - as_timestamp(now())) / 3600) }}"
+      - condition: time
+        after: '09:00:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.hottub_auto_heat
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.hottub_check_turn_on
+        state: 'on'
+      - condition: state
+        entity_id: sensor.hottub_heater
+        state: 'off'
+      - condition: template
+        value_template: "{{ states('sensor.hottub_water_temperature') < states('input_number.hottub_minimum_temperature') }}"
+  action:
+  - service: script.chime_announcement_broadcast
+    data:
+      message: 'De hottub moet nu aangezet worden.'
+
+
+- id: hottub-heater-auto-on-check
+  alias: "Hottub heater auto on check"
+  trigger:
+    - platform: time_pattern
+      minutes: '/5'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '09:30:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.hottub_auto_heat
+        state: 'on'
+      - condition: state
+        entity_id: sensor.hottub_pump
+        state: 'on'
+      - condition: state
+        entity_id: sensor.hottub_heater
+        state: 'off'
+      - condition: state
+        entity_id: switch.hottub_heater
+        state: 'on'
+  action:
+  - service: script.chime_announcement_broadcast
+    data:
+      message: 'Waarschuwing! De verwarming van de hottub werkt niet.'
+
+- id: hottub-heater-error-check
+  alias: "Hottub heater error check"
+  trigger:
+    - platform: time_pattern
+      minutes: '/5'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '21:30:00'
+        before: '21:31:00'
+      - condition: state
+        entity_id: sensor.hottub_pump
+        state: 'off'
+      - condition: state
+        entity_id: sensor.hottub_heater
+        state: 'on'
+  action:
+  - service: script.chime_announcement_broadcast
+    data:
+      message: 'Pas op! De verwarming van de hottub staat aan, maar de pomp niet. Gevaar voor oververhitting van de verwarming.'
+
+#- id: hottub-heater-auto-on-message
+#  alias: "Hottub heater auto on message"
+#  trigger:
+#    - platform: state
+#      entity_id: sensor.hottub_state
+#      to: 'Heating'
+#  action:
+#  - service: script.chime_announcement_broadcast
+#    data:
+#      message: 'De hottub gaat nu opwarmen.'
 
 
 #- id: energy_reset_monthly_consumption

@@ -1,0 +1,71 @@
+## MILIGHT
+  - platform: limitlessled
+    bridges:
+      - host: 10.0.0.70
+        groups:
+        - number: 1
+          type: rgbww
+          name: ML Spots Table
+          fade: false
+        - number: 2
+          type: rgbww
+          name: Spots Couch
+          fade: false
+        - number: 3
+          type: rgbww
+          name: Sphere
+          fade: false
+        - number: 4
+          type: rgbww
+          name: ML Kitchen
+          fade: false
+        - number: 1
+          type: rgbw
+          name: Little sphere
+          fade: false
+        - number: 2
+          type: rgbw
+          name: Wicker
+          fade: false
+        - number: 3
+          type: rgbw
+          name: Hallway
+          fade: false
+      - host: 10.0.0.71
+        groups:
+        - number: 1
+          type: rgbw
+          name: ML Kids Bedroom
+          fade: false
+        - number: 4
+          type: rgbww
+          name: Toilet
+          fade: false
+      - host: 10.0.0.72
+        groups:
+        - number: 1
+          type: rgbww
+          name: Shower
+          fade: false
+        - number: 2
+          type: rgbww
+          name: Bath
+          fade: false
+        - number: 3
+          type: rgbww
+          name: Bathroom other
+          fade: false
+        - number: 4
+          type: rgbww
+          name: Mirror
+          fade: false
+      - host: 10.0.0.73
+        groups:
+        - number: 1
+          type: rgbww
+          name: Garden Spots Top
+          fade: false
+        - number: 2
+          type: rgbww
+          name: Garden Spots Bottom
+          fade: false

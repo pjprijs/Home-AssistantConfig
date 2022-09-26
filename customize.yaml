@@ -27,3 +27,12 @@ sensor.hottub_water_temperature:
 
 sensor.power_consumption_watt:
   friendly_name: Power Usage
+
+switch.renderstation:
+  icon: mdi:desktop-tower
+
+switch.nuc_server:
+  icon: mdi:server-network
+
+switch.nuc_server_full:
+  icon: mdi:server-network

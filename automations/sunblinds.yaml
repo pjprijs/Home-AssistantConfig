@@ -1,0 +1,14 @@
+- id: sunblinds_on_evening
+  alias: "Sunblinds auto off"
+  trigger:
+    platform: template
+    value_template: "{{ (state_attr('sun.sun', 'elevation') | float) < (states('input_number.garden_lights_sunset_angle') | float)}}"
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: "12:00:00"
+  action:
+    service: switch.turn_on
+    entity_id: switch.garden_wall
+

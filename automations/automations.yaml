@@ -44,52 +44,30 @@
     entity_id: switch.fb_kids_bedroom
     to: 'off'
     for:
-      minutes: 10
+      minutes: 15
   action:
   - service: switch.turn_off
     entity_id: switch.sw_globe
 
-- id: kids-bedroom-switch-on-tree
-  alias: "Lights+Tree on in bedroom kids"
+- id: livingroom-switch-on-table-spots
+  alias: "Table spots on in livingroom"
   trigger:
     platform: state
-    entity_id: switch.fb_kids_bedroom
+    entity_id: switch.fb_kitchen_top_right
     to: 'on'
   action:
   - service: switch.turn_on
-    entity_id: switch.sw_kids_tree
+    entity_id: switch.fb_kitchen_table_spots
 
-- id: kids-bedroom-switch-off-tree
-  alias: "Tree off in bedroom kids"
+- id: livingroom-switch-off-table-spots
+  alias: "Table spots off in livingroom"
   trigger:
     platform: state
-    entity_id: switch.fb_kids_bedroom
+    entity_id: switch.fb_kitchen_top_right
     to: 'off'
-    for:
-      minutes: 15
   action:
   - service: switch.turn_off
-    entity_id: switch.sw_kids_tree
-
-- id: livingroom-switch-on-sphere
-  alias: "Sphere on in livingroom"
-  trigger:
-    platform: state
-    entity_id: switch.fb_kitchen_top_right
-    to: 'on'
-  action:
-  - service: light.turn_on
-    entity_id: light.table
-
-- id: livingroom-switch-off-sphere
-  alias: "Sphere off in livingroom"
-  trigger:
-    platform: state
-    entity_id: switch.fb_kitchen_top_right
-    to: 'off'
-  action:
-  - service: light.turn_off
-    entity_id: light.table
+    entity_id: switch.fb_kitchen_table_spots
 
 - id: dryer-ready
   alias: "Dryer is ready"

@@ -1,0 +1,108 @@
+emulate_sunrise_old:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.ml_spots_table
+        brightness: 1
+        rgb_color: [255,0,0]
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_couch
+        brightness: 1
+        rgb_color: [255,0,0]
+    - service: light.turn_on
+      data:
+        entity_id: light.ml_spots_table
+        brightness: 75
+        rgb_color: [255,127,0]
+        transition: 20
+    - delay:
+        seconds: 20
+    - service: light.turn_on
+      data:
+        entity_id: light.ml_spots_table
+        brightness: 150
+        rgb_color: [255,204,0]
+        transition: 40
+    - service: light.turn_on
+      data:
+        entity_id: light.spots_couch
+        brightness: 75
+        rgb_color: [255,127,0]
+        transition: 20
+    - delay:
+        seconds: 20
+
+emulate_sunrise:
+  sequence:
+    - service: light.turn_on
+      data:
+        transition: 1
+        entity_id: light.nightlight_pj
+        brightness_pct: 1
+        rgb_color: [10,0,0]
+    - service: light.turn_on
+      data:
+        transition: 180 #3 min
+        entity_id: light.nightlight_pj
+        brightness_pct: 50
+        rgb_color: [255,0,0]
+    - service: light.turn_on
+      data:
+        transition: 300  #5 min
+        entity_id: light.nightlight_pj
+        brightness_pct: 60
+        rgb_color: [255,150,0]
+    - service: light.turn_on
+      data:
+        transition: 300  #5 min
+        entity_id: light.nightlight_pj
+        brightness_pct: 80
+        rgb_color: [255,200,150]
+
+gardenwall_spots_fire:
+  sequence:
+    - alias: Repeat the sequence AS LONG AS the conditions are true
+      repeat:
+        while:
+          - condition: state
+            entity_id: input_boolean.gardenwall_effect
+            state: 'on'
+        sequence:
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,190,10]
+              transition: 5
+              brightness_pct: 80
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,230,80]
+              transition: 8
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,180,0]
+              transition: 4
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,210,40]
+              transition: 3
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,180,0]
+              transition: 6
+          - service: light.turn_on
+            data:
+              entity_id: light.garden_spots_top
+              rgb_color: [255,230,80]
+              transition: 4
+
+gardenwall_spots_fire_stop:
+  sequence:
+    - service: script.turn_off
+      data:
+        entity_id: script.gardenwall_spots_fire

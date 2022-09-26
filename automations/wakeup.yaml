@@ -1,0 +1,65 @@
+- id: wakuplight_weekday_morning
+  alias: "Wakeup light weekday morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.wakeuplight_weekday', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: state
+        entity_id: 'input_boolean.alarm_weekday'
+        state: 'on'
+  action:
+    service: script.turn_on
+    entity_id: script.emulate_sunrise
+
+- id: wakuplight_weekend_morning
+  alias: "Wakeup light weekend morning"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.wakeuplight_weekend', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+      - condition: state
+        entity_id: 'input_boolean.alarm_weekend'
+        state: 'on'
+  action:
+    service: script.turn_on
+    entity_id: script.emulate_sunrise
+
+- id: wakuplight_weekday_morning_kids
+  alias: "Wakeup light weekday morning kids"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.wakeuplight_weekday', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+  action:
+    service: switch.turn_on
+    entity_id: switch.sw_globe
+
+- id: wakuplight_weekend_morning_kids
+  alias: "Wakeup light weekend morning kids"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.wakeuplight_weekend', 'timestamp') | timestamp_custom('%H:%M', false)) }}"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+  action:
+    service: switch.turn_on
+    entity_id: switch.sw_globe

@@ -5,25 +5,35 @@
 #  username: !secret postnl_username
 #  password: !secret postnl_password
 
+- platform: miflora
+  mac: "C4:7C:8D:6C:4A:10"
+  name: Flower1
+  force_update: true
+  median: 3
+  go_unavailable_timeout: 43200
+  monitored_conditions:
+    - moisture
+    - light
+    - temperature
+    - conductivity
+    - battery
+
+- platform: miflora
+  mac: "C4:7C:8D:6C:48:B3"
+  name: Flower2
+  force_update: true
+  median: 3
+  go_unavailable_timeout: 43200
+  monitored_conditions:
+    - moisture
+    - light
+    - temperature
+    - conductivity
+    - battery
+
 - platform: dsmr
   port: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AO3U9CNH-if00-port0
   dsmr_version: 5
-
-- platform: yr
-  name: Weather
-  forecast: 24
-  monitored_conditions:
-    - temperature
-    - symbol
-    - precipitation
-    - windSpeed
-    - pressure
-    - windDirection
-    - humidity
-    - cloudiness
-    - lowClouds
-    - mediumClouds
-    - highClouds
 
 - platform: systemmonitor
   resources:
@@ -94,11 +104,11 @@
       friendly_name: "Hottub"
       value_template: >-
         {% if (states('sensor.hottub_heater_power') | float > 200) and
-              (states('sensor.hottub_pump_power') | float > 20)
+              (states('sensor.hottub_pump_power2') | float > 20)
         %}
           Heating
         {% elif (states('sensor.hottub_heater_power') | float < 200) and
-              (states('sensor.hottub_pump_power') | float > 20)
+              (states('sensor.hottub_pump_power2') | float > 20)
         %}
           Cleaning
         {% else %}
@@ -106,11 +116,11 @@
         {% endif %}
       icon_template: >-
         {% if (states('sensor.hottub_heater_power') | float > 200) and
-              (states('sensor.hottub_pump_power') | float > 20)
+              (states('sensor.hottub_pump_power2') | float > 20)
         %}
           mdi:hot-tub
         {% elif (states('sensor.hottub_heater_power') | float < 200) and
-              (states('sensor.hottub_pump_power') | float > 20)
+              (states('sensor.hottub_pump_power2') | float > 20)
         %}
           mdi:waves
         {% else %}
@@ -133,13 +143,13 @@
     hottub_pump:
       friendly_name: "Hottub pump"
       value_template: >-
-        {% if states('sensor.hottub_pump_power') | float > 20 %}
+        {% if states('sensor.hottub_pump_power2') | float > 20 %}
           on
         {% else %}
           off
         {% endif %}
       icon_template: >-
-        {% if states('sensor.hottub_pump_power') | float > 20 %}
+        {% if states('sensor.hottub_pump_power2') | float > 20 %}
           mdi:engine
         {% else %}
           mdi:engine-off
